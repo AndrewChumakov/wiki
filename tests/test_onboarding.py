@@ -3,6 +3,7 @@ from allure_commons.types import LabelType
 from appium.webdriver.common.appiumby import AppiumBy
 from selene import browser, have
 
+
 @allure.epic("Wiki")
 @allure.feature("Приветственный экран")
 class TestOnboarding:

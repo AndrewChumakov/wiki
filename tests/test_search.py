@@ -7,7 +7,7 @@ from selene import browser, have
 @allure.epic("Wiki")
 @allure.feature("Поиск")
 class TestSearch:
-    @allure.story("Поиск страницы")
+    @allure.story("Поиск статьи")
     @allure.label(LabelType.TAG, "smoke")
     @allure.severity("BLOCKER")
     def test_search_article(self):

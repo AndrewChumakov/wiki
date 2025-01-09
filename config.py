@@ -1,6 +1,7 @@
 import os
-from dotenv import load_dotenv
+
 from appium.options.android import UiAutomator2Options
+from dotenv import load_dotenv
 
 from utils.file import abs_path_from_project
 
