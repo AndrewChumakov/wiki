@@ -1,47 +1,29 @@
 import allure
 from allure_commons.types import LabelType
-from appium.webdriver.common.appiumby import AppiumBy
-from selene import browser, have
+
+from data.main_screen import MainText
+from data.onboarding_screen import OnboardingText
+from pages.main_page import main_page
 
 
 @allure.epic("Wiki")
 @allure.feature("Приветственный экран")
+@allure.label(LabelType.TAG, "smoke")
+@allure.severity("NORMAL")
 class TestOnboarding:
     @allure.story("Переход по страницам приветственного экрана")
-    @allure.label(LabelType.TAG, "smoke")
-    @allure.severity("NORMAL")
     def test_onboarding(self):
-        with allure.step("Открыть приветственный экран"):
-            browser.element((AppiumBy.ID, "org.wikipedia.alpha:id/primaryTextView")). \
-                should(have.text("The Free Encyclopedia\n…in over 300 languages"))
-
-        with allure.step("Перейти на вторую страницу приветственного экрана"):
-            browser.element((AppiumBy.ID, "org.wikipedia.alpha:id/fragment_onboarding_forward_button")).click()
-            browser.element((AppiumBy.ID, "org.wikipedia.alpha:id/primaryTextView")). \
-                should(have.text("New ways to explore"))
-
-        with allure.step("Перейти на третью страницу приветственного экрана"):
-            browser.element((AppiumBy.ID, "org.wikipedia.alpha:id/fragment_onboarding_forward_button")).click()
-            browser.element((AppiumBy.ID, "org.wikipedia.alpha:id/primaryTextView")). \
-                should(have.text("Reading lists with sync"))
-
-        with allure.step("Перейти на четвертую страницу приветственного экрана"):
-            browser.element((AppiumBy.ID, "org.wikipedia.alpha:id/fragment_onboarding_forward_button")).click()
-            browser.element((AppiumBy.ID, "org.wikipedia.alpha:id/primaryTextView")). \
-                should(have.text("Data & Privacy"))
-
-        with allure.step("Закрыть приветственный экран"):
-            browser.element((AppiumBy.ID, "org.wikipedia.alpha:id/fragment_onboarding_done_button")).click()
-
-        with allure.step("Проверить открытие страницы поиска"):
-            browser.all((AppiumBy.CLASS_NAME, "android.widget.TextView")).first.should(have.text("Search Wikipedia"))
+        main_page.check_onboarding_screen(OnboardingText.FIRST_SCREEN)
+        main_page.forward_onboarding_screen()
+        main_page.check_onboarding_screen(OnboardingText.SECOND_SCREEN)
+        main_page.forward_onboarding_screen()
+        main_page.check_onboarding_screen(OnboardingText.THIRD_SCREEN)
+        main_page.forward_onboarding_screen()
+        main_page.check_onboarding_screen(OnboardingText.FORTH_SCREEN)
+        main_page.done_onboarding_screen()
+        main_page.check_main_screen(MainText.SEARCH_TEXT)
 
     @allure.story("Пропуск страницы приветственного экрана")
-    @allure.label(LabelType.TAG, "smoke")
-    @allure.severity("NORMAL")
     def test_skip_onboarding(self):
-        with allure.step("Пропуск приветственного экрана"):
-            browser.element((AppiumBy.ID, "org.wikipedia.alpha:id/fragment_onboarding_skip_button")).click()
-
-        with allure.step("Проверить открытие страницы поиска"):
-            browser.all((AppiumBy.CLASS_NAME, "android.widget.TextView")).first.should(have.text("Search Wikipedia"))
+        main_page.skip_onboarding_screen()
+        main_page.check_main_screen(MainText.SEARCH_TEXT)
